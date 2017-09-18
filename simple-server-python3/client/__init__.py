@@ -54,6 +54,12 @@ class ServerHandler(BaseHTTPRequestHandler):
         info = self.__get_object()
         prices = info['prices']
         quant = info['quantities']
+        country = info['country']
+        reduction = info['reduction']
+        cost = 0
+        for x in range(0, len(prices)):
+            cost += prices[x] * quant[x]
+        taxRateDict[country]
         {
 
             '/ping': lambda: self.__write_response('pong', 200),
