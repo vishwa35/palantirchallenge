@@ -79,21 +79,26 @@ class ServerHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         info = self.__get_object()
-        prices = info['prices']
-        quant = info['quantities']
-        country = info['country']
-        reduction = info['reduction']
-        cost = 0
-        for x in range(0, len(prices)):
-            cost += prices[x] * quant[x]
-        taxRateDict[country]
-        {
+        print(info)
+        if 'type' in info:
+            print (info)
+            prices = info['prices']
+            quant = info['quantities']
+            country = info['country']
+            reduction = info['reduction']
+            cost = 0
+            for x in range(0, len(prices)):
+                cost += prices[x] * quant[x]
+            tax = (1 + taxRateDict[country]) * cost
+            tax = round(tax, 2)
+            {
 
-            '/ping': lambda: self.__write_response('pong', 200),
-            '/feedback': self.__feedback,
-            '/path': self.__your_path
+                '/ping': lambda: self.__write_response((json.dumps({'total': tax})), 200),
+                '/feedback': self.__feedback,
+                '/path': self.__your_path
 
-        }.get(self.path, lambda: self.__write_response('Unknown', 404))()
+            }.get(self.path, lambda: self.__write_response('Unknown', 404))()
+
 
 
 def start_server(testMode=False):
