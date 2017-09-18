@@ -47,6 +47,9 @@ class ServerHandler(BaseHTTPRequestHandler):
         self.__write_response('hello world', 200)
 
     def do_POST(self):
+        info = self.__get_object()
+        prices = info['prices']
+        quant = info['quantities']
         {
 
             '/ping': lambda: self.__write_response('pong', 200),
