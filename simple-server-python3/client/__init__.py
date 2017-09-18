@@ -14,6 +14,10 @@ HOST_NAME_TEST = HOST_NAME
 PORT_NUMBER = 8080
 PORT_NUMBER_TEST = PORT_NUMBER + 10
 
+taxRateDict = {
+    "DE" : 0.2
+}
+
 
 class ServerHandler(BaseHTTPRequestHandler):
 
