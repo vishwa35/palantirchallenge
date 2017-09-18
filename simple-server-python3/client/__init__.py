@@ -45,6 +45,14 @@ taxRateDict = {
     "MT" : .2
 }
 
+taxReductions = {
+    50000 : .15,
+    10000 : .1,
+    7000 : .07,
+    5000 : .05,
+    1000 : .03
+}
+
 
 class ServerHandler(BaseHTTPRequestHandler):
 
@@ -80,7 +88,7 @@ class ServerHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         info = self.__get_object()
         print(info)
-        if 'type' in info:
+        if 'type' not in info:
             print (info)
             prices = info['prices']
             quant = info['quantities']
@@ -89,8 +97,12 @@ class ServerHandler(BaseHTTPRequestHandler):
             cost = 0
             for x in range(0, len(prices)):
                 cost += prices[x] * quant[x]
-            tax = (1 + taxRateDict[country]) * cost
-            tax = round(tax, 2)
+            tax = (taxRateDict[country]) * cost
+            total = tax + cost
+            for val in taxReductions:
+                if total > val:
+                    total -= total * taxReductions[val]
+            total = round(tax, 2)
             {
 
                 '/ping': lambda: self.__write_response((json.dumps({'total': tax})), 200),
