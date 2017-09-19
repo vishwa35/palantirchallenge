@@ -91,6 +91,8 @@ class ServerHandler(BaseHTTPRequestHandler):
         if isinstance(info, (list, tuple)):
             self.__write_response('Unknown', 400)
         if 'prices' in info:
+            if 'prices' not in info or 'quantities' not in info or 'country' not in info or 'reduction' not in info:
+                self.__write_response('Unknown', 400)
             lastRequest = info
             print (info)
             prices = info['prices']
@@ -98,6 +100,8 @@ class ServerHandler(BaseHTTPRequestHandler):
             country = info['country']
             reduction = info['reduction']
             cost = 0
+            if len(prices) != len(quant):
+                self.__write_response('Unknown', 400)
             for x in range(0, len(prices)):
                 cost += prices[x] * quant[x]
             tax = (taxRateDict[country]) * cost
@@ -145,9 +149,6 @@ class ServerHandler(BaseHTTPRequestHandler):
             taxRateDict[lastRequest['country']] = taxRateDict[lastRequest['country']] * (rightVal / wrongVal)
         else:
             self.__write_response('Unknown', 400)
-
-
-
 
 def start_server(testMode=False):
     global server
