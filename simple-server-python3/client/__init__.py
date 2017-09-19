@@ -102,14 +102,18 @@ class ServerHandler(BaseHTTPRequestHandler):
             for val in taxReductions:
                 if total > val:
                     total -= total * taxReductions[val]
-            total = round(tax, 2)
-            {
+                    break
+            total = round(total, 2)
+            self.__write_response((json.dumps({'total': total})), 200)
+            # {
 
-                '/ping': lambda: self.__write_response((json.dumps({'total': tax})), 200),
-                '/feedback': self.__feedback,
-                '/path': self.__your_path
+            #     '/ping': lambda: self.__write_response((json.dumps({'total': total})), 200),
+            #     '/feedback': self.__feedback,
+            #     '/order': self.__your_path
 
-            }.get(self.path, lambda: self.__write_response('Unknown', 404))()
+            # }.get(self.path, lambda: self.__write_response('Unknown', 404))()
+        else:
+            print ("rektnation")
 
 
 
