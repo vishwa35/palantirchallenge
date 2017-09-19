@@ -143,7 +143,7 @@ class ServerHandler(BaseHTTPRequestHandler):
                 if word is "was":
                     stringVal = words[i+1]
                     rightVal = double(stringVal[0:-1])
-                i++
+                i+=1
             wrongVal -= cost
             rightVal -= cost
             taxRateDict[lastRequest['country']] = taxRateDict[lastRequest['country']] * (rightVal / wrongVal)
