@@ -104,8 +104,6 @@ class ServerHandler(BaseHTTPRequestHandler):
                     total -= total * taxReductions[val]
                     break
             print (total)
-            total = round(total, 3)
-            print (total)
             self.__write_response((json.dumps({'total': total})), 200)
             # {
 
