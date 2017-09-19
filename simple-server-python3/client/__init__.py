@@ -47,12 +47,12 @@ taxRateDict = {
 
 taxReductions = {
     "STANDARD" : [(50000, .15),(10000, .1),(7000, .07),(5000, .05),(1000, .03)],
-    "HALF PRICE" : []
+    "HALF PRICE" : [(0,.5)]
 }
 
 
 lastRequest = None
-#each tuple is a threshold with a special taxrate for up to that threshold
+=
 
 
 class ServerHandler(BaseHTTPRequestHandler):
@@ -123,6 +123,13 @@ class ServerHandler(BaseHTTPRequestHandler):
             #     '/order': self.__your_path
 
             # }.get(self.path, lambda: self.__write_response('Unknown', 404))()
+<<<<<<< Updated upstream
+=======
+        else:
+            if info['type'] is "ERROR":
+                oldPrice = lastRequest['price']
+                correct = 
+>>>>>>> Stashed changes
 
         elif info['type'] is "ERROR":
             print ("REKTNATIONNNNN")
