@@ -123,13 +123,7 @@ class ServerHandler(BaseHTTPRequestHandler):
             #     '/order': self.__your_path
 
             # }.get(self.path, lambda: self.__write_response('Unknown', 404))()
-<<<<<<< Updated upstream
-=======
-        else:
-            if info['type'] is "ERROR":
-                oldPrice = lastRequest['price']
-                correct = 
->>>>>>> Stashed changes
+
 
         elif info['type'] is "ERROR":
             print ("REKTNATIONNNNN")
