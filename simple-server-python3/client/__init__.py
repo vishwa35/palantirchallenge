@@ -33,7 +33,7 @@ taxRateDict = {
     "BG" : .21,
     "DK" : .21,
     "FI" : .17,
-    "SK" : .18,
+    "SK" : .10,
     "IE" : .21,
     "HR" : .23,
     "LT" : .23,
@@ -46,16 +46,14 @@ taxRateDict = {
 }
 
 taxReductions = {
-    "STANDARD" : [(50000, .15),(10000, .1),(7000, .07),(5000, .05),(1000, .03)]
+    "STANDARD" : [(50000, .15),(10000, .1),(7000, .07),(5000, .05),(1000, .03)],
     "HALF PRICE" : []
 }
 
 
 lastRequest = None
 #each tuple is a threshold with a special taxrate for up to that threshold
-spTaxDict {
-    "FR" : [(500, 0)]
-}
+
 
 class ServerHandler(BaseHTTPRequestHandler):
 
@@ -97,18 +95,25 @@ class ServerHandler(BaseHTTPRequestHandler):
             prices = info['prices']
             quant = info['quantities']
             country = info['country']
+
+
             reduction = info['reduction']
             cost = 0
             for x in range(0, len(prices)):
                 cost += prices[x] * quant[x]
             tax = (taxRateDict[country]) * cost
             total = tax + cost
+            print(cost)
+            if country is 'FR' and cost < 500:
+                total = cost
+            else:
+                total = tax + cost
             if reduction in taxReductions:
                 reductionList = taxReductions[reduction]
                 for val in reductionList:
                     if total > val[0]:
-                    total -= total * val[1]
-                    break
+                        total -= total * val[1]
+                        break
             print (total)
             self.__write_response((json.dumps({'total': total})), 200)
             # {
@@ -118,11 +123,9 @@ class ServerHandler(BaseHTTPRequestHandler):
             #     '/order': self.__your_path
 
             # }.get(self.path, lambda: self.__write_response('Unknown', 404))()
-        else:
-            if info['type'] is "ERROR":
-                print("hi")
 
-            print ("rektnation")
+        elif info['type'] is "ERROR":
+            print ("REKTNATIONNNNN")
 
 
 
