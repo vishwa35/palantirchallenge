@@ -16,7 +16,7 @@ PORT_NUMBER_TEST = PORT_NUMBER + 10
 
 taxRateDict = {
     "DE" : 0.2,
-    "UK" : .21,
+    "UK" : .20,
     "FR" : .2,
     "IT" : .25,
     "ES" : .19,
@@ -52,6 +52,8 @@ taxReductions = {
     5000 : .05,
     1000 : .03
 }
+
+lastRequest = None
 
 
 class ServerHandler(BaseHTTPRequestHandler):
@@ -89,6 +91,7 @@ class ServerHandler(BaseHTTPRequestHandler):
         info = self.__get_object()
         print(info)
         if 'type' not in info:
+            lastRequest = info
             print (info)
             prices = info['prices']
             quant = info['quantities']
