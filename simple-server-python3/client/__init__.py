@@ -122,10 +122,27 @@ class ServerHandler(BaseHTTPRequestHandler):
             #     '/order': self.__your_path
 
             # }.get(self.path, lambda: self.__write_response('Unknown', 404))()
-
-
         elif info['type'] is "ERROR" or info['type'] is "INFO":
-            print ("REKTNATIONNNNN")
+            message = info['content']
+            prices = lastRequest['prices']
+            quant = lastRequest['quantities']
+            cost = 0
+            for x in range(0, len(prices)):
+                cost += prices[x] * quant[x]
+            words = message.split(" ")
+            i = 0
+            wrongVal = 0
+            rightVal = 0
+            for word in words:
+                if word is "reply":
+                    wrongVal = double(words[i + 1])
+                if word is "was":
+                    stringVal = words[i+1]
+                    rightVal = double(stringVal[0:-1])
+                i++
+            wrongVal -= cost
+            rightVal -= cost
+            taxRateDict[lastRequest['country']] = taxRateDict[lastRequest['country']] * (rightVal / wrongVal)
         else:
             self.__write_response('Unknown', 400)
 
