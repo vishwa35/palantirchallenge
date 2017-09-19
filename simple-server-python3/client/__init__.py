@@ -15,11 +15,11 @@ PORT_NUMBER = 8080
 PORT_NUMBER_TEST = PORT_NUMBER + 10
 
 taxRateDict = {
-    "DE" : 0.2,
-    "UK" : .20,
-    "FR" : .2,
-    "IT" : .25,
-    "ES" : .19,
+    "DE" : 0.15,
+    "UK" : .15,
+    "FR" : .15,
+    "IT" : .15,
+    "ES" : .15,
     "PL" : .21,
     "RO" : .2,
     "NL" : .2,
@@ -52,7 +52,6 @@ taxReductions = {
 
 
 lastRequest = None
-=
 
 
 class ServerHandler(BaseHTTPRequestHandler):
@@ -89,14 +88,14 @@ class ServerHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         info = self.__get_object()
         print(info)
-        if 'type' not in info:
+        if isinstance(info, (list, tuple)):
+            self.__write_response('Unknown', 400)
+        if 'prices' in info:
             lastRequest = info
             print (info)
             prices = info['prices']
             quant = info['quantities']
             country = info['country']
-
-
             reduction = info['reduction']
             cost = 0
             for x in range(0, len(prices)):
@@ -125,8 +124,11 @@ class ServerHandler(BaseHTTPRequestHandler):
             # }.get(self.path, lambda: self.__write_response('Unknown', 404))()
 
 
-        elif info['type'] is "ERROR":
+        elif info['type'] is "ERROR" or info['type'] is "INFO":
             print ("REKTNATIONNNNN")
+        else:
+            self.__write_response('Unknown', 400)
+
 
 
 
